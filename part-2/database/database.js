@@ -31,7 +31,7 @@ function guests() {
                 guest.id = item.id;
                 guest.name = item.name;
                 guest.email = item.email;
-                guestList.push(guest);
+                guests.push(guest);
 
             })
             client.end();
