@@ -56,19 +56,20 @@ function rooms(arg) {
     client.connect();
     try {
         var today = new Date();
-        today = [today.getFullYear(), today.getMonth(), today.getDate()].join('-');
-        var query_base = `SELECT r.*, b.id is null as availability FROM rooms as r
-        		LEFT JOIN bookings as b ON b.room_id = r.id 
-        		AND '${today}'
-        		BETWEEN b.check_in and b.check_out`;
-        if (arg === '--available') query_base += 'AND b.id is null';
-        client.query(query_base).then(result => {
+        today = [today.getFullYear(), today.getMonth() + 1, today.getDate()].join('-');
+        console.log(today)
+        var query_base = `SELECT r.*, b.id is null as available FROM rooms as r
+                LEFT JOIN bookings as b ON b.room_id = r.id 
+                AND '${today}'
+                BETWEEN b.check_in and b.check_out`;
+        if (arg) query_base += ` AND b.id is null`
+        client.query(query_base).then((result) => {
             let rooms = [];
             result.rows.forEach((item) => {
                 room = {};
                 room.num = item.number;
                 room.capacity = item.capacity;
-                room.availability = item.availability;
+                room.available = item.available;
                 rooms.push(room);
             });
             client.end();
@@ -88,15 +89,16 @@ function rooms(arg) {
     }
 }
 
+
 function bookings(arg) {
     client.connect();
     try {
         const bookingList = [];
         if (typeof arg !== 'string') {
             client.query(`SELECT r.number, g.name, b.check_in, b.check_out FROM bookings AS b
-    				JOIN rooms AS r on r.id = b.room_id
-    				JOIN guests AS g on b.guest_id = g.id
-    				ORDER BY r.number ASC;`).then(result => {
+                    JOIN rooms AS r on r.id = b.room_id
+                    JOIN guests AS g on b.guest_id = g.id
+                    ORDER BY r.number ASC;`).then(result => {
                 result.rows.forEach((item) => {
                     booking = {};
                     booking.room = item.number;
@@ -118,10 +120,10 @@ function bookings(arg) {
         }
         if (typeof arg === 'string') {
             client.query(`SELECT r.number, g.name, b.check_in, b.check_out FROM bookings AS b
-    				JOIN rooms AS r on r.id = b.room_id
-    				JOIN guests AS g on b.guest_id = g.id
-    				WHERE r.number = '${arg}'
-    				ORDER BY r.number ASC;`).then(result => {
+                    JOIN rooms AS r on r.id = b.room_id
+                    JOIN guests AS g on b.guest_id = g.id
+                    WHERE r.number = '${arg}'
+                    ORDER BY r.number ASC;`).then(result => {
                 result.rows.forEach((item) => {
                     booking = {};
                     booking.room = item.number;

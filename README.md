@@ -1,4 +1,4 @@
-# Phase 3 Interview Challenge C (490/560)
+# Phase 3 Interview Challenge C (500/560)
 
 This is the challenge for getting into phase 3. There are 3 parts to the challenge.
 
@@ -194,7 +194,7 @@ $ node hotel.js bookings 3B
 User Stories: Ensure that your schema design can satisfy the following scenarios
 - [x] __10__: As a hotel manager I can get a list of all guests
 - [x] __10__: As a hotel manager I can get a list of all rooms
-- [ ] __10__: As a hotel manager I can see which rooms have been booked by which guests, along with their check-in and check out dates
+- [x] __10__: As a hotel manager I can see which rooms have been booked by which guests, along with their check-in and check out dates
 
 Command line interface requirements
 - [x] __10__: There is a Node script called `hotel.js` that can be called with different commands

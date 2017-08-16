@@ -4,7 +4,11 @@
   "description": "",
   "main": "hotel.js",
   "scripts": {
-    "test": "mocha test_database"
+    "test": "mocha test_database",
+    "db:create": "createdb hotel",
+    "db:drop": "dropdb hotel",
+    "db:setup": "psql hotel < ./schema.sql",
+    "db:seed": "psql hotel < ./load-data.sql"
   },
   "keywords": [],
   "author": "",
