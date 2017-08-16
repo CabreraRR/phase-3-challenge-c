@@ -32,6 +32,7 @@ function bookingContents() {
 
 close.addEventListener('click', () => {
     modal.style.display = 'none';
+    modalTotal.innerHTML = '$ 0';
 })
 
 quantity.addEventListener('change', function(e){

@@ -24,7 +24,7 @@ if (!String.prototype.padEnd) {
 function guests() {
     client.connect();
     let guests = [];
-    // try {
+    try {
         client.query(`SELECT id, name, email FROM guests;`).then(result => {
             result.rows.forEach((item) => {
                 guest = {};
@@ -45,10 +45,10 @@ function guests() {
             console.log('+----+-------------------------+-----------------------------------+');
 
         })
-    // } catch (e) {
-    //     console.error(e);
-    //     client.end();
-    // }
+    } catch (e) {
+        console.error(e);
+        client.end();
+    }
     return guests;
 }
 
