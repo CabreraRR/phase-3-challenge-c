@@ -31,7 +31,7 @@ describe('hotel database testing', () => {
             return rooms(--available)
                 .then(data => {
                     data.forEach(data => {
-                        expect(data[2]).to.equal(true)
+                        expect(data[2]).to.equal(true);
                     })
                 })
         })
@@ -40,13 +40,13 @@ describe('hotel database testing', () => {
         it('expect to return all bookings', () => {
             return bookings()
                 .then(data => {
-
+                	console.log('pass')
                 })
         })
         it('expect to return all bookings for a specific room', () => {
             return bookings()
                 .then(data => {
-                    console.log()
+                    console.log('pass')
                 })
         })
     }
