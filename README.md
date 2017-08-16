@@ -1,4 +1,4 @@
-# Phase 3 Interview Challenge C
+# Phase 3 Interview Challenge C (490/560)
 
 This is the challenge for getting into phase 3. There are 3 parts to the challenge.
 
@@ -189,7 +189,7 @@ $ node hotel.js bookings 3B
 - [x] __10:__ Database schema (all `CREATE TABLE` statements) is defined in a file `schema.sql`
 - [x] __10:__ SQL statements to insert seed data into all tables is added to the file `load-data.sql` (either create your own seed data or use the files provided: [rooms.csv][hotel-rooms] | [bookings.csv][hotel-bookings] | [guests.csv][hotel-guests])
 - [x] __10:__ All database query functions are written in a file `database.js`, and tests for queries are written in a file `database_test.js`
-- [ ] __10:__ Tests can be run with the command `$ npm test`
+- [x] __10:__ Tests can be run with the command `$ npm test`
 
 User Stories: Ensure that your schema design can satisfy the following scenarios
 - [x] __10__: As a hotel manager I can get a list of all guests
