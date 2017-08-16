@@ -21,13 +21,11 @@ if (!String.prototype.padEnd) {
     };
 }
 
-let guestList = [];
-
 function guests() {
     client.connect();
-    try {
+    let guests = [];
+    // try {
         client.query(`SELECT id, name, email FROM guests;`).then(result => {
-            let guestList = [];
             result.rows.forEach((item) => {
                 guest = {};
                 guest.id = item.id;
@@ -37,45 +35,53 @@ function guests() {
 
             })
             client.end();
+
             console.log('+----+-------------------------+-----------------------------------+');
             console.log('| ID | NAME                    | EMAIL                             |');
             console.log('+----+-------------------------+-----------------------------------+');
-            guestList.forEach((item) => {
+            guests.forEach((item) => {
                 console.log(`| ${item.id}`.padEnd(5) + `| ${item.name}`.padEnd(26) + `| ${item.email}`.padEnd(36) + '|');
             })
             console.log('+----+-------------------------+-----------------------------------+');
+
         })
-    } catch (e) {
-        console.error(e);
-        client.end();
-    }
+    // } catch (e) {
+    //     console.error(e);
+    //     client.end();
+    // }
+    return guests;
 }
 
 function rooms(arg) {
     client.connect();
     try {
-        client.query(`SELECT r.*, b.id is not null as reserved FROM rooms as r 
+        var today = new Date();
+        today = [today.getFullYear(), today.getMonth(), today.getDate()].join('-');
+        var query_base = `SELECT r.*, b.id is null as availability FROM rooms as r
         		LEFT JOIN bookings as b ON b.room_id = r.id 
-        		AND '2017-08-14' 
-        		BETWEEN b.check_in and b.check_out;`).then(result => {
+        		AND '${today}'
+        		BETWEEN b.check_in and b.check_out`;
+        if (arg === '--available') query_base += 'AND b.id is null';
+        client.query(query_base).then(result => {
             let rooms = [];
             result.rows.forEach((item) => {
                 room = {};
                 room.num = item.number;
                 room.capacity = item.capacity;
-                room.reserved = item.reserved;
+                room.availability = item.availability;
                 rooms.push(room);
-            })
+            });
             client.end();
-            console.log('+----+----------+----------+');
-            console.log('| ID | CAPACITY | RESERVED |');
-            console.log('+----+----------+----------+');
-            rooms.forEach((item)=>{
-            	console.log(`| ${item.num}`.padEnd(5)+`|    ${item.capacity}`.padEnd(11)+ `| ${item.reserved}`.padEnd(11) +`|`)
+            console.log('+----+----------+-----------+');
+            console.log('| ID | CAPACITY | AVAILABLE |');
+            console.log('+----+----------+-----------+');
+
+            rooms.forEach((item) => {
+                console.log(`| ${item.num}`.padEnd(5) + `|    ${item.capacity}`.padEnd(11) + `| ${item.available}`.padEnd(11) + `|`)
             })
             console.log('+----+----------+----------+');
 
-        })
+        });
     } catch (e) {
         console.error(e);
         client.end();
@@ -108,7 +114,7 @@ function bookings(arg) {
                         `| ` + `${item.check_in}`.slice(3, 13).padEnd(12) + ` | ` + `${item.check_out}`.slice(3, 13).padEnd(13) + ` | `);
                 })
                 console.log('+--------+--------------------------+--------------+---------------+');
-            })	
+            })
         }
         if (typeof arg === 'string') {
             client.query(`SELECT r.number, g.name, b.check_in, b.check_out FROM bookings AS b
